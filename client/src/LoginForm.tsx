@@ -1,25 +1,54 @@
+import { TextField } from '@mui/material';
+import Button from '@mui/material/Button';
+import React, {useContext} from 'react';
+import { useNavigate } from 'react-router-dom';
+import './index.css';
+import AuthInput from './objects/AuthInput';
+import { AuthContext } from './contexts/AuthContext';
+import authRepository from './repositories/AuthRepository';
+
+
 const LoginForm = () => {
+    const {login} = useContext(AuthContext);    
+    const loginRef: React.RefObject<HTMLInputElement> = React.createRef();
+    const passwordRef: React.RefObject<HTMLInputElement> = React.createRef();
+
+    const handleLogin = () => {
+      const authInput: AuthInput = {
+        login: loginRef.current?.value ?? "",
+        password: passwordRef.current?.value ?? ""
+      }      
+      login(authInput);
+    }
+
     return (
-    <div className="form">
-      <div className="title">Welcome</div>
-      <div className="subtitle">Let's create your account!</div>
-      <div className="input-container ic1">
-        <input id="firstname" className="input" type="text" placeholder=" " />
-        <div className="cut"></div>
-        <label htmlFor="firstname" className="placeholder">First name</label>
+      <div className="login-form-container">
+        <form className="login-form" autoComplete='off' noValidate>
+          <TextField      
+            inputRef={loginRef}           
+            variant='filled'
+            size='small'
+            required
+            label='Логин'            
+            sx={{ m:2 }}
+          >
+          </TextField>          
+          <TextField
+            inputRef={passwordRef}
+            variant='filled'
+            size='small'
+            required
+            type='password'
+            label='Пароль'            
+            sx={{ m:2 }}
+          >
+          </TextField>          
+          <br></br>
+          <div className='submit-btn-container'>
+            <Button onClick={handleLogin} variant='contained' color='primary' fullWidth>Войти</Button>
+          </div>          
+        </form>
       </div>
-      <div className="input-container ic2">
-        <input id="lastname" className="input" type="text" placeholder=" " />
-        <div className="cut"></div>
-        <label htmlFor="lastname" className="placeholder">Last name</label>
-      </div>
-      <div className="input-container ic2">
-        <input id="email" className="input" type="text" placeholder=" " />
-        <div className="cut cut-short"></div>
-        <label htmlFor="email" className="placeholder">Email</label>     
-      </div>
-      <button className="submit">Create account</button>
-    </div>
     );
 }
  
