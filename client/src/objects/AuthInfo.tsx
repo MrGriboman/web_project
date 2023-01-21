@@ -1,7 +1,7 @@
 import RoleType from "../enums/RoleType";
 
 type AuthInfo = {
-    isAuthenticated: boolean;
+    authorized: boolean;
     role: RoleType;
 }
 

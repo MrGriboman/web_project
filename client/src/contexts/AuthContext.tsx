@@ -1,5 +1,5 @@
 import RoleType from "../enums/RoleType";
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import authRepository from '../repositories/AuthRepository';
 import { setConstantValue } from "typescript";
 import AuthInfo from "../objects/AuthInfo";
@@ -10,7 +10,7 @@ interface IAuthContext {
 
     role: RoleType,
     
-    login: (authInput: AuthInput) => void,
+    login: (authInput: AuthInput) => Promise<boolean>,
 
     logout: () => void
 }
@@ -30,17 +30,15 @@ export const AuthContextProvider = ({children}: any) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [role, setRole] = useState(RoleType.Unknown);
 
-    authRepository.getInfo()
-        .then((data) => setState(data));
-
     const setState = (authInfo: AuthInfo) => {
-        setIsAuthenticated(authInfo.isAuthenticated);
+        setIsAuthenticated(authInfo.authorized);
         setRole(authInfo.role);
     }
 
-    const login = async (authInput: AuthInput): Promise<void> => {
+    const login = async (authInput: AuthInput): Promise<boolean> => {
         let result = await authRepository.login(authInput);
         setState(result);
+        return result.authorized;
     }
 
     const logout = async (): Promise<void> => {

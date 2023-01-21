@@ -44,5 +44,4 @@ class Repository <I, O> {
     }
 
 }
-
 export default Repository;

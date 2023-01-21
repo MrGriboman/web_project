@@ -10,7 +10,7 @@ const SignInForm = () => {
     }
     
     return (
-        <div className='sign-form-container' style={{minWidth: "100%", minHeight: "100%"}}>
+        <div className='sign-form-container'>
             <button style={{margin: 16}} onClick={toggleLogged}>{haveAcc ? 'Пользователь зарегистрирован' : 'Пользователь не зарегистрирован'}</button>
             {haveAcc ? <LoginForm /> : <RegisterForm />}
         </div>

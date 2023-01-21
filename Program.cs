@@ -1,4 +1,10 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using System.Security.Cryptography;
+using System.Text;
+using web_project.Database;
+using web_project.Enums;
+using web_project.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 var environment = builder.Environment;
@@ -6,12 +12,33 @@ var environment = builder.Environment;
 // Add services to the container.
 var services = builder.Services;
 
-services.AddControllersWithViews();
+services.AddControllers();
+
 services.AddSpaStaticFiles(configuration => {
     configuration.RootPath = "client/build";
 });
 
+
+services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+        .AddCookie(options =>
+        {
+            options.LoginPath = new Microsoft.AspNetCore.Http.PathString("");
+        });
+
 var app = builder.Build();
+
+using (ApplicationContext db = new ApplicationContext())
+{
+    var password = "admin";
+    byte[] hash;
+    using(SHA256 sha = SHA256.Create())
+    {
+        hash = sha.ComputeHash(Encoding.UTF8.GetBytes(password));
+    }
+    User admin = new User { Login = "test", Password = hash.ToString(), Role = RoleType.Admin.ToString() };
+    db.Users.Add(admin);
+    db.SaveChanges();
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -24,6 +51,17 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseSpaStaticFiles();
+
+app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
+
 app.UseSpa(spa =>
 {
     spa.Options.SourcePath = "client";
@@ -33,13 +71,5 @@ app.UseSpa(spa =>
         spa.UseReactDevelopmentServer(npmScript: "start");
     }
 });
-
-app.UseRouting();
-
-app.UseAuthorization();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

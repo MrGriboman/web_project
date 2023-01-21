@@ -10,11 +10,13 @@
   align-items: center;  
 }*/
 
-.sign-form-container {
+.sign-form-container, .questionnaire-form-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  min-height: 100%;  
 }
 
 .app {
@@ -43,12 +45,40 @@
 }
 
 .login-link {
+  font-family: 'Arial';
+  font-weight: bold;
+  text-decoration: none;
   color: white;
-  margin-left: auto;
-  padding-right: 24px;
-  padding-bottom: 8px;
+  
 }
 
-.header-container {
-  
+.loginBtnContainer {  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  margin-top: 2px;
+  font-size: large;
+}
+
+.questionnaireBtnContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 8px;
+  margin-top: 2px;
+  font-size: large;
+}
+
+.logoutBtn {
+  font-family: 'Arial';
+  font-weight: bold;
+  font-size: large;
+  color: white;
+  background: transparent;
+  border: none;
+}
+
+.logoutBtn:hover {
+  cursor: pointer;
 }

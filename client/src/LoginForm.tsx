@@ -9,7 +9,8 @@ import authRepository from './repositories/AuthRepository';
 
 
 const LoginForm = () => {
-    const {login} = useContext(AuthContext);    
+    const navigate = useNavigate();
+    const {login, isAuthenticated, role} = useContext(AuthContext);    
     const loginRef: React.RefObject<HTMLInputElement> = React.createRef();
     const passwordRef: React.RefObject<HTMLInputElement> = React.createRef();
 
@@ -18,7 +19,12 @@ const LoginForm = () => {
         login: loginRef.current?.value ?? "",
         password: passwordRef.current?.value ?? ""
       }      
-      login(authInput);
+      login(authInput)
+        .then((res) => {
+          console.log(res);
+          if (res)
+            navigate('/');
+        })
     }
 
     return (

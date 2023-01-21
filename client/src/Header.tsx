@@ -14,38 +14,37 @@ import { Link } from "react-router-dom";
 import AuthInfo from "./objects/AuthInfo";
 import RoleType from "./enums/RoleType";
 
-const Header = () => {
-	//const {isAuthenticated} = useContext(AuthContext);
-	const isAuthenticated = false;
-	let button;
-	if (isAuthenticated)
-		button = <Button>Выйти</Button>
-	else
-		button = <Link className="login-link" to="auth/login">Войти</Link>
+const Header = () => {	
+	const {logout, isAuthenticated, role} = useContext(AuthContext);
+	let loginBtn, questionnaireBtn;		
+	if (isAuthenticated) {
+		loginBtn = <button className="logoutBtn" onClick={logout}>Выйти</button>
+		questionnaireBtn = <Link className="login-link" to="questionnaire">Анкета</Link>
+	}
+	else {
+		loginBtn = <Link className="login-link" to="auth/login">Войти</Link>
+		questionnaireBtn = null;
+	}
 
-    const [isAdmin, setIsAdmin] = useState(false);
+    const isAdmin = (role == 1);
     return (
     <div className="header-container" style={{minWidth: "100%", minHeight: "100%"}}>
 		<AppBar position="static" sx={{width: 1}}>
 			<Toolbar>
-			<IconButton
-				size="large"
-				edge="start"
-				color="inherit"
-				aria-label="menu"
-				sx={{ mr: 2 }}
-			>
-			<MenuIcon />
-			</IconButton>
+			
 			<Typography variant="h6"
 				component="div">
 				{isAdmin ? 'Админ' : 'Пользователь'}
-			</Typography>		
+			</Typography>
+			<div className="questionnaireBtnContainer">
+				{questionnaireBtn}
+			</div>
+			<div className="loginBtnContainer"> 
+				{loginBtn}	
+			</div>				
 			</Toolbar>
 			
-			{button}
-		</AppBar>
-		<Button color='secondary' onClick={() => {setIsAdmin(!isAdmin)}} >Change type of user</Button>		
+		</AppBar>				
     </div>
 	
 );

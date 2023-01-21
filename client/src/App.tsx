@@ -11,6 +11,7 @@ import RoleType from './enums/RoleType';
 import { Sign } from 'crypto';
 import AuthInfo from './objects/AuthInfo';
 import { AuthContextProvider } from './contexts/AuthContext';
+import Questionnaire from './questionnaire';
 
 function App() {
   return (    
@@ -22,6 +23,7 @@ function App() {
             <Route path='/auth/login/' element={true
               ? <SignInForm />
               : <Navigate replace to={"/"} />} />
+            <Route path='/questionnaire' element={<Questionnaire/>} />
           </Routes>
         </Router>
       </div>    
