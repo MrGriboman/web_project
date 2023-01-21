@@ -8,7 +8,7 @@ namespace web_project.Database
         public DbSet<User> Users { get; set; }
         public DbSet<Questionnaire> Questionnaires { get; set; }
         public DbSet<Matchup> Matchups { get; set; }
-        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
+        public ApplicationContext() : base()
         {
             Database.EnsureCreated();
         }

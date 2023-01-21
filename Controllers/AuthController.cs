@@ -13,7 +13,7 @@ namespace web_project.Controllers
 {
     public class AuthController : Controller
     {
-        public readonly ApplicationContext db;
+        public readonly ApplicationContext db = new ApplicationContext();
         [HttpPost]
         [HttpGet]
         [Route("auth/login")]
@@ -62,7 +62,8 @@ namespace web_project.Controllers
                 WantChatting = questInfo.WantChatting,
                 IsMentor = questInfo.IsMentor,
                 WantToBeMentor = questInfo.WantToBeMentor,
-                About = questInfo.About
+                About = questInfo.About,
+                UserID = questInfo.UserID
             };
             db.Questionnaires.Add(questionnaire);
             db.SaveChanges();

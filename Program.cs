@@ -14,7 +14,8 @@ var services = builder.Services;
 
 services.AddControllers();
 
-services.AddSpaStaticFiles(configuration => {
+services.AddSpaStaticFiles(configuration =>
+{
     configuration.RootPath = "client/build";
 });
 
@@ -28,16 +29,20 @@ services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 var app = builder.Build();
 
 using (ApplicationContext db = new ApplicationContext())
-{
-    var password = "admin";
-    byte[] hash;
-    using(SHA256 sha = SHA256.Create())
+{    
+    if (db.Database.CanConnect())
     {
-        hash = sha.ComputeHash(Encoding.UTF8.GetBytes(password));
+        var password = "admin";
+        byte[] hash;
+        using (SHA256 sha = SHA256.Create())
+        {
+            hash = sha.ComputeHash(Encoding.UTF8.GetBytes(password));
+        }
+        User admin = new User { Login = "test", Password = hash.ToString(), Role = RoleType.Admin.ToString() };
+        db.Users.Add(admin);
+        db.SaveChanges();
     }
-    User admin = new User { Login = "test", Password = hash.ToString(), Role = RoleType.Admin.ToString() };
-    db.Users.Add(admin);
-    db.SaveChanges();
+    
 }
 
 // Configure the HTTP request pipeline.

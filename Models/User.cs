@@ -11,9 +11,8 @@ namespace web_project.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; } = Guid.Empty;
         public string Login { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;  
         public string Role { get; set; } = string.Empty;
-        [AllowNull]
-        public Questionnaire Questionnaire { get; set; }
+        
     }
 }

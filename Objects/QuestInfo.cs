@@ -10,5 +10,7 @@
         public bool WantToBeMentor { get; set; } = false;
         public string About { get; set; } = string.Empty;
 
+        public int UserID { get; set; }
+
     }
 }
